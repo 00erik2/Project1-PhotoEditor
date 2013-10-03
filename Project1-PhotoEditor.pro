@@ -15,10 +15,11 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     pointProcessBS.cpp \
-    neighborhoodProcessBS.cpp
+    neighborhoodProcessBS.cpp \
+    imagesubwindow.cpp
 
 HEADERS  += mainwindow.h \
     imageProcessing.h \
-    mdichildwidget.h
+    imagesubwindow.h
 
 FORMS    += mainwindow.ui
