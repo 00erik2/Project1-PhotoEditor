@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <iostream>
+#include <QtWidgets>
+#include "imagesubwindow.h"
 
 using namespace std;
 
@@ -18,8 +20,13 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
+protected:
+    ImageSubwindow* createChild();
+
 private slots:
     void on_actionNew_triggered();
+
+    void on_actionOpen_triggered();
 
 private:
     Ui::MainWindow *ui;

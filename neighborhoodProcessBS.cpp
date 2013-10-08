@@ -27,15 +27,15 @@ bool emboss(QImage &image)
 {
     if( image.isNull() )
         return false;
-    int nrows = image.height(), ncols = image.width(), r, c, gradient;
+    int nrows = image.height(), ncols = image.width(), x, y, gradient;
 
-   QImage temp = image;
-    for( r = 0; r < nrows-1; r++ )
-        for( c = 0; c < ncols-1; c++ )
+    QImage temp = image;
+    for( x = 0; x < image.width()-1; x++ )
+        for( y = 1; y < image.height()-1; x++ )
         {
-            gradient = (qGray(temp.pixel(r,c))
-                        - qGray(temp.pixel(r+1,c-1)))/2+128;
-            image.setPixel(r,c, qRgb(gradient, gradient, gradient));
+            gradient = (qGray(temp.pixel(x,y))
+                        - qGray(temp.pixel(x+1,y-1)))/2+128;
+            image.setPixel(x,y, qRgb(gradient, gradient, gradient));
         }
     return true;
 }
@@ -73,10 +73,9 @@ bool median(QImage &image, int size)
 {
     if(image.isNull() )
         return false;
-  int nrows = image.Height(), ncols = image.Width(), r, c, size = 3, i, j;
+  int nrows = image.height(), ncols = image.width(), x, y, i, j;
   int COL, ROW, size_sqr, place, mean_index;
-  if( !getParams( size ))
-             return false;
+
   // handle out of range neighborhood parameters
   if( size%2 == 0 )
       size += 1;
@@ -88,18 +87,18 @@ bool median(QImage &image, int size)
   mean_index = size_sqr/2 + 1;
  QImage temp = image;
 
-  for( r = size/2; r < nrows - size/2; r++ )
-      for( c = size/2; c < ncols - size/2; c++ )
+  for( x = size/2; x < nrows - size/2; x++ )
+      for( y = size/2; y < ncols - size/2; y++ )
       {
           std::vector <int> local_hist (256, 0);
-          COL = c - size/2;
-          ROW = r - size/2;
+          ROW = y - size/2;
+          COL = x - size/2;
 
               for( i = ROW; i < ROW + size; i++ )
               {
                   for( j = COL; j < COL + size; j++ )
                   {
-                      local_hist[qGray(temp.pixel(r,c))]++;
+                      local_hist[qGray(temp.pixel(x,y))]++;
                   }
 
               }
@@ -115,7 +114,7 @@ bool median(QImage &image, int size)
                   if( place >= mean_index )
                       break;
               }
-          image.setPixel(r, c, qRgb(i, i, i));
+          image.setPixel(x, y, qRgb(i, i, i));
         }
 
       return true;
@@ -170,7 +169,8 @@ bool sobelEdgeDetect(QImage &image)
             y = -UpL-2*Up-UpR+BotL+2*Bot+BotR;
 
             m = sqrt(double(x*x)+double(y*y));
-            image.setPixel(r, c, qRgb(m, m, m));
+            image.setPixel(c, r, qRgb(m, m, m));
         }
     return true;
 }
+

@@ -1,7 +1,11 @@
 #ifndef IMAGESUBWINDOW_H
 #define IMAGESUBWINDOW_H
-
+#include <QMessageBox>
 #include <QMdiSubWindow>
+#include <QLabel>
+#include <QScrollArea>
+#include <QPixmap>
+#include "imagesubwindow.h"
 
 class ImageSubwindow : public QMdiSubWindow
 {
@@ -9,9 +13,11 @@ class ImageSubwindow : public QMdiSubWindow
 public:
 
     ImageSubwindow();
-    explicit ImageSubwindow(QWidget *parent = 0);
-    QScrollArea ScrollArea;
+    explicit ImageSubwindow(QWidget *parent);
 
+    QScrollArea ScrollArea;
+    QLabel Label;
+    QPixmap Pixmap;
 
     void newFile();
     bool loadFile(const QString &fileName);
@@ -22,7 +28,9 @@ public:
     QString currentFile() { return curFile; }
 
 protected:
-    void closeEvent(QCloseEvent *event);
+//    void closeEvent(QCloseEvent *event);
+    void fitToPixmap();
+    void resizeFrame();
 
 private:
     bool maybeSave();
@@ -31,11 +39,11 @@ private:
 
     QString curFile;
     bool isUntitled;
-    
+
 signals:
-    
+
 public slots:
-    
+
 };
 
 #endif // IMAGESUBWINDOW_H
