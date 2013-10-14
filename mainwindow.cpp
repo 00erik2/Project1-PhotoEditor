@@ -7,10 +7,12 @@
 #include <QMainWindow>
 #include <QLabel>
 #include "imagesubwindow.h"
+#include "imageProcessing.h"
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    currentChild = NULL;
     ui->setupUi(this);
 //   mdiArea = new QMdiArea;
 //   setCentralWidget(mdiArea);
@@ -20,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete currentChild;
     delete ui;
 }
 
@@ -31,6 +34,13 @@ void MainWindow::on_actionNew_triggered()
         // create mdi child widget with file displayed as pixmap
     cout << "New was clicked!" << endl;
 }
+
+void MainWindow::on_actionSave_triggered()
+{
+    cout << "Save was clicked!" << endl;
+    currentChild->save();
+}
+
 
 void MainWindow::on_actionOpen_triggered()
 {
@@ -54,10 +64,45 @@ void MainWindow::on_actionOpen_triggered()
 
 ImageSubwindow* MainWindow::createChild()
 {
-    ImageSubwindow *child = new ImageSubwindow();
+    ImageSubwindow *child = new ImageSubwindow(this);
     ui->mdiArea->addSubWindow(child);
 
     return child;
 }
 
 
+
+void MainWindow::on_actionDespeckle_triggered()
+{
+   currentChild->median();
+}
+
+void MainWindow::on_actionEmboss_triggered()
+{
+    currentChild->emboss();
+}
+
+void MainWindow::on_actionEdge_triggered()
+{
+    currentChild->sobelEdgeDetect();
+}
+
+void MainWindow::on_actionPosterize_triggered()
+{
+    currentChild->posterize(0);
+}
+
+void MainWindow::on_actionNegative_triggered()
+{
+    currentChild->negate();
+}
+
+void MainWindow::on_actionSharpen_triggered()
+{
+    currentChild->adjustIntensity(50);
+}
+
+void MainWindow::on_actionSoften_triggered()
+{
+    currentChild->smooth();
+}

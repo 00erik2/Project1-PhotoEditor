@@ -14,12 +14,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    pointProcessBS.cpp \
-    neighborhoodProcessBS.cpp \
     imagesubwindow.cpp
 
 HEADERS  += mainwindow.h \
-    imageProcessing.h \
     imagesubwindow.h
 
 FORMS    += mainwindow.ui

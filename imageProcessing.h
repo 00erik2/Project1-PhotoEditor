@@ -65,15 +65,15 @@ public:
 private slots:
 //    void open();
 //    void brightness(QImage &image);
-    void gamma(QImage &image, double sigma);
+    bool gamma(QImage &image, double sigma);
 //    void contrast(QImage &image);
 //    void sharpen(QImage &image);
 //    void soften(QImage &image);
 //    void negate(QImage &image);
-//    void despeckel(QImage &image);
-//    void posterize(QImage &image, int size);
-//    void edge(QImage &image);
-//    void emboss(QImage &image);
+//    bool median(QImage &image, int size);
+    bool posterize(QImage &image, int levels);
+    bool sobelEdgeDetect(QImage &image);
+    bool emboss(QImage &image);
 //    void zoomIn();
 //    void zoomOut();
 //    void normalSize();

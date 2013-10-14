@@ -1,10 +1,8 @@
 #include <QImage>
 #include <iostream>
 #include <cmath>
+#include "imageProcessing.h"
 
-bool emboss(QImage &image);
-bool median(QImage &image, int size);
-bool sobelEdgeDetect(QImage &image);
 /*****************************************************************//*
  * @author Benjamin Sherman
  *
@@ -23,7 +21,7 @@ bool sobelEdgeDetect(QImage &image);
  * @returns true  - The image negative was successfully computed
  *          false - The function end prematurely, due to an error.
  *******************************************************************/
-bool emboss(QImage &image)
+bool ImageProcess::emboss(QImage &image)
 {
     if( image.isNull() )
         return false;
@@ -69,56 +67,56 @@ bool emboss(QImage &image)
  * @returns true  - The image negative was successfully computed
  *          false - The function end prematurely, due to an error.
  *******************************************************************/
-bool median(QImage &image, int size)
-{
-    if(image.isNull() )
-        return false;
-  int nrows = image.height(), ncols = image.width(), x, y, i, j;
-  int COL, ROW, size_sqr, place, mean_index;
+//bool ImageProcess::median(QImage &image, int size)
+//{
+//    if(image.isNull() )
+//        return false;
+//  int nrows = image.height(), ncols = image.width(), x, y, i, j;
+//  int COL, ROW, size_sqr, place, mean_index;
 
-  // handle out of range neighborhood parameters
-  if( size%2 == 0 )
-      size += 1;
-  if( size < 3 )
-      size = 3;
-  size_sqr = size * size;
-  // mean index is the number of pixels in the median filter
-  // neighborhood size. When these are sorted, they
-  mean_index = size_sqr/2 + 1;
- QImage temp = image;
+//  // handle out of range neighborhood parameters
+//  if( size%2 == 0 )
+//      size += 1;
+//  if( size < 3 )
+//      size = 3;
+//  size_sqr = size * size;
+//  // mean index is the number of pixels in the median filter
+//  // neighborhood size. When these are sorted, they
+//  mean_index = size_sqr/2 + 1;
+// QImage temp = image;
 
-  for( x = size/2; x < nrows - size/2; x++ )
-      for( y = size/2; y < ncols - size/2; y++ )
-      {
-          std::vector <int> local_hist (256, 0);
-          ROW = y - size/2;
-          COL = x - size/2;
+//  for( x = size/2; x < nrows - size/2; x++ )
+//      for( y = size/2; y < ncols - size/2; y++ )
+//      {
+//          std::vector <int> local_hist (256, 0);
+//          ROW = y - size/2;
+//          COL = x - size/2;
 
-              for( i = ROW; i < ROW + size; i++ )
-              {
-                  for( j = COL; j < COL + size; j++ )
-                  {
-                      local_hist[qGray(temp.pixel(x,y))]++;
-                  }
+//              for( i = ROW; i < ROW + size; i++ )
+//              {
+//                  for( j = COL; j < COL + size; j++ )
+//                  {
+//                      local_hist[qGray(temp.pixel(x,y))]++;
+//                  }
 
-              }
+//              }
 
-          place = 0; // the intensity of the sorted middle neighborhood
-          // pixel is initializede to 0
-          for( i = 0; i < 256; i++ )
-              {
-                  place += local_hist[i];
+//          place = 0; // the intensity of the sorted middle neighborhood
+//          // pixel is initializede to 0
+//          for( i = 0; i < 256; i++ )
+//              {
+//                  place += local_hist[i];
 
-                  // once half-way through the sorted elements in the
-                  // neighborhood, break and set intensity of pixel
-                  if( place >= mean_index )
-                      break;
-              }
-          image.setPixel(x, y, qRgb(i, i, i));
-        }
+//                  // once half-way through the sorted elements in the
+//                  // neighborhood, break and set intensity of pixel
+//                  if( place >= mean_index )
+//                      break;
+//              }
+//          image.setPixel(x, y, qRgb(i, i, i));
+//        }
 
-      return true;
-}
+//      return true;
+//}
 
 
 /*****************************************************************//*
@@ -142,7 +140,7 @@ bool median(QImage &image, int size)
  * @returns true  - The Sobel magnitude was successfully applied.
  *          false - The function end prematurely, due to an error.
  *******************************************************************/
-bool sobelEdgeDetect(QImage &image)
+bool ImageProcess::sobelEdgeDetect(QImage &image)
 {
     if(image.isNull())
         return false;

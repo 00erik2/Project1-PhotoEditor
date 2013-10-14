@@ -21,7 +21,7 @@ using namespace std;
  * @returns false - user canceled execution of this
  * process
   *******************************************************************/
-void ImageProcess::gamma(QImage &image , double sigma)
+bool ImageProcess::gamma(QImage &image , double sigma)
 {
     int LookUpTable[256] = {0}, i, r, c, nrows, ncols;
     double temp_table;
@@ -57,10 +57,10 @@ void ImageProcess::gamma(QImage &image , double sigma)
             rgb = qRgb(LookUpTable[qRed(rgb)], LookUpTable[qGreen(rgb)], LookUpTable[qBlue(rgb)]);
             image.setPixel(c, r, rgb);
         }
-    //return true;
+    return true;
 }
 
-bool posterize(QImage &image, int levels)
+bool ImageProcess::posterize(QImage &image, int levels)
 {
     // handle invalid parameters
     if(levels < 1 || levels > 255)
